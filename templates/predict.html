@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+{% block title %}Predict — Student Academic Risk{% endblock %}
+
+{% block content %}
+<div class="container page-narrow">
+  <div class="page-header">
+    <h1>Student Risk Assessment</h1>
+    <p>Fill in the fields below. All fields are required for an accurate prediction.</p>
+  </div>
+
+  <form class="predict-form" action="{{ url_for('predict') }}" method="POST">
+
+    <!-- ── Section 1: Personal & Family ──────────────────────── -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="section-icon">👤</span> Personal &amp; Family Information
+      </h2>
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="school">School</label>
+          <select name="school" id="school" required>
+            <option value="">Select…</option>
+            <option value="GP">Gabriel Pereira (GP)</option>
+            <option value="MS">Mousinho da Silveira (MS)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="sex">Sex</label>
+          <select name="sex" id="sex" required>
+            <option value="">Select…</option>
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age <span class="hint">(15–22)</span></label>
+          <input type="number" name="age" id="age" min="15" max="22" placeholder="e.g. 17" required />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Home Address</label>
+          <select name="address" id="address" required>
+            <option value="">Select…</option>
+            <option value="U">Urban</option>
+            <option value="R">Rural</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="famsize">Family Size</label>
+          <select name="famsize" id="famsize" required>
+            <option value="">Select…</option>
+            <option value="GT3">Greater than 3 (GT3)</option>
+            <option value="LE3">3 or fewer (LE3)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="Pstatus">Parent Cohabitation</label>
+          <select name="Pstatus" id="Pstatus" required>
+            <option value="">Select…</option>
+            <option value="T">Living Together (T)</option>
+            <option value="A">Apart (A)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="Medu">Mother's Education <span class="hint">(0–4)</span></label>
+          <select name="Medu" id="Medu" required>
+            <option value="">Select…</option>
+            <option value="0">0 – None</option>
+            <option value="1">1 – Primary (4th grade)</option>
+            <option value="2">2 – 5th–9th grade</option>
+            <option value="3">3 – Secondary education</option>
+            <option value="4">4 – Higher education</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="Fedu">Father's Education <span class="hint">(0–4)</span></label>
+          <select name="Fedu" id="Fedu" required>
+            <option value="">Select…</option>
+            <option value="0">0 – None</option>
+            <option value="1">1 – Primary (4th grade)</option>
+            <option value="2">2 – 5th–9th grade</option>
+            <option value="3">3 – Secondary education</option>
+            <option value="4">4 – Higher education</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="Mjob">Mother's Job</label>
+          <select name="Mjob" id="Mjob" required>
+            <option value="">Select…</option>
+            <option value="at_home">At Home</option>
+            <option value="health">Health</option>
+            <option value="services">Services</option>
+            <option value="teacher">Teacher</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="Fjob">Father's Job</label>
+          <select name="Fjob" id="Fjob" required>
+            <option value="">Select…</option>
+            <option value="at_home">At Home</option>
+            <option value="health">Health</option>
+            <option value="services">Services</option>
+            <option value="teacher">Teacher</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="reason">Reason for Choosing School</label>
+          <select name="reason" id="reason" required>
+            <option value="">Select…</option>
+            <option value="course">Course preference</option>
+            <option value="home">Close to home</option>
+            <option value="reputation">School reputation</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nursery">Attended Nursery School?</label>
+          <select name="nursery" id="nursery" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="internet">Internet at Home?</label>
+          <select name="internet" id="internet" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Section 2: Math Course Details ────────────────────── -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="section-icon">📐</span> Mathematics Course Details
+      </h2>
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="guardian_mat">Guardian (Math)</label>
+          <select name="guardian_mat" id="guardian_mat" required>
+            <option value="">Select…</option>
+            <option value="mother">Mother</option>
+            <option value="father">Father</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="traveltime_mat">Travel Time to School <span class="hint">(1–4)</span></label>
+          <select name="traveltime_mat" id="traveltime_mat" required>
+            <option value="">Select…</option>
+            <option value="1">1 – &lt;15 min</option>
+            <option value="2">2 – 15–30 min</option>
+            <option value="3">3 – 30–60 min</option>
+            <option value="4">4 – &gt;1 hour</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="studytime_mat">Weekly Study Time <span class="hint">(1–4)</span></label>
+          <select name="studytime_mat" id="studytime_mat" required>
+            <option value="">Select…</option>
+            <option value="1">1 – &lt;2 hours</option>
+            <option value="2">2 – 2–5 hours</option>
+            <option value="3">3 – 5–10 hours</option>
+            <option value="4">4 – &gt;10 hours</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="failures_mat">Past Class Failures <span class="hint">(0–3)</span></label>
+          <input type="number" name="failures_mat" id="failures_mat" min="0" max="3" placeholder="0" required />
+        </div>
+
+        <div class="form-group">
+          <label for="schoolsup_mat">Extra School Support?</label>
+          <select name="schoolsup_mat" id="schoolsup_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="famsup_mat">Family Educational Support?</label>
+          <select name="famsup_mat" id="famsup_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="paid_mat">Extra Paid Classes (Math)?</label>
+          <select name="paid_mat" id="paid_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="activities_mat">Extra-curricular Activities?</label>
+          <select name="activities_mat" id="activities_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="higher_mat">Wants Higher Education?</label>
+          <select name="higher_mat" id="higher_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="romantic_mat">In a Romantic Relationship?</label>
+          <select name="romantic_mat" id="romantic_mat" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="famrel_mat">Family Relationship Quality <span class="hint">(1–5)</span></label>
+          <input type="number" name="famrel_mat" id="famrel_mat" min="1" max="5" placeholder="e.g. 4" required />
+        </div>
+
+        <div class="form-group">
+          <label for="freetime_mat">Free Time After School <span class="hint">(1–5)</span></label>
+          <input type="number" name="freetime_mat" id="freetime_mat" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="goout_mat">Going Out with Friends <span class="hint">(1–5)</span></label>
+          <input type="number" name="goout_mat" id="goout_mat" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="Dalc_mat">Workday Alcohol Consumption <span class="hint">(1–5)</span></label>
+          <input type="number" name="Dalc_mat" id="Dalc_mat" min="1" max="5" placeholder="e.g. 1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="Walc_mat">Weekend Alcohol Consumption <span class="hint">(1–5)</span></label>
+          <input type="number" name="Walc_mat" id="Walc_mat" min="1" max="5" placeholder="e.g. 1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="health_mat">Current Health Status <span class="hint">(1–5)</span></label>
+          <input type="number" name="health_mat" id="health_mat" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="absences_mat">Number of Absences (Math) <span class="hint">(0–93)</span></label>
+          <input type="number" name="absences_mat" id="absences_mat" min="0" max="93" placeholder="e.g. 4" required />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Section 3: Portuguese Course Details ──────────────── -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="section-icon">📖</span> Portuguese Course Details
+      </h2>
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="guardian_por">Guardian (Portuguese)</label>
+          <select name="guardian_por" id="guardian_por" required>
+            <option value="">Select…</option>
+            <option value="mother">Mother</option>
+            <option value="father">Father</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="traveltime_por">Travel Time to School <span class="hint">(1–4)</span></label>
+          <select name="traveltime_por" id="traveltime_por" required>
+            <option value="">Select…</option>
+            <option value="1">1 – &lt;15 min</option>
+            <option value="2">2 – 15–30 min</option>
+            <option value="3">3 – 30–60 min</option>
+            <option value="4">4 – &gt;1 hour</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="studytime_por">Weekly Study Time <span class="hint">(1–4)</span></label>
+          <select name="studytime_por" id="studytime_por" required>
+            <option value="">Select…</option>
+            <option value="1">1 – &lt;2 hours</option>
+            <option value="2">2 – 2–5 hours</option>
+            <option value="3">3 – 5–10 hours</option>
+            <option value="4">4 – &gt;10 hours</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="failures_por">Past Class Failures <span class="hint">(0–3)</span></label>
+          <input type="number" name="failures_por" id="failures_por" min="0" max="3" placeholder="0" required />
+        </div>
+
+        <div class="form-group">
+          <label for="schoolsup_por">Extra School Support?</label>
+          <select name="schoolsup_por" id="schoolsup_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="famsup_por">Family Educational Support?</label>
+          <select name="famsup_por" id="famsup_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="paid_por">Extra Paid Classes (Portuguese)?</label>
+          <select name="paid_por" id="paid_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="activities_por">Extra-curricular Activities?</label>
+          <select name="activities_por" id="activities_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="higher_por">Wants Higher Education?</label>
+          <select name="higher_por" id="higher_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="romantic_por">In a Romantic Relationship?</label>
+          <select name="romantic_por" id="romantic_por" required>
+            <option value="">Select…</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="famrel_por">Family Relationship Quality <span class="hint">(1–5)</span></label>
+          <input type="number" name="famrel_por" id="famrel_por" min="1" max="5" placeholder="e.g. 4" required />
+        </div>
+
+        <div class="form-group">
+          <label for="freetime_por">Free Time After School <span class="hint">(1–5)</span></label>
+          <input type="number" name="freetime_por" id="freetime_por" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="goout_por">Going Out with Friends <span class="hint">(1–5)</span></label>
+          <input type="number" name="goout_por" id="goout_por" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="Dalc_por">Workday Alcohol Consumption <span class="hint">(1–5)</span></label>
+          <input type="number" name="Dalc_por" id="Dalc_por" min="1" max="5" placeholder="e.g. 1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="Walc_por">Weekend Alcohol Consumption <span class="hint">(1–5)</span></label>
+          <input type="number" name="Walc_por" id="Walc_por" min="1" max="5" placeholder="e.g. 1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="health_por">Current Health Status <span class="hint">(1–5)</span></label>
+          <input type="number" name="health_por" id="health_por" min="1" max="5" placeholder="e.g. 3" required />
+        </div>
+
+        <div class="form-group">
+          <label for="absences_por">Number of Absences (Portuguese) <span class="hint">(0–93)</span></label>
+          <input type="number" name="absences_por" id="absences_por" min="0" max="93" placeholder="e.g. 2" required />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Submit ──────────────────────────────────────────────── -->
+    <div class="form-submit">
+      <button type="submit" class="btn btn-primary btn-lg">
+        🔍 Run Risk Assessment
+      </button>
+      <button type="reset" class="btn btn-outline btn-lg">Reset</button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

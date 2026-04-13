@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Result - Student Academic Risk{% endblock %}
+
+{% block content %}
+{% set risk_value = risk_pct if risk_pct is not none else (100 if prediction == 1 else 0) %}
+{% set support_level = "Urgent support" if risk_value >= 70 else "Targeted support" if risk_value >= 40 else "Routine monitoring" %}
+{% set review_window = "within 1 week" if risk_value >= 70 else "within 2 to 3 weeks" if risk_value >= 40 else "during the next routine review" %}
+
+<div class="container page-narrow">
+
+  <div class="result-card {% if prediction == 1 %}result-risk{% else %}result-safe{% endif %}">
+    <div class="result-icon">
+      {% if prediction == 1 %}&#9888;&#65039;{% else %}&#9989;{% endif %}
+    </div>
+
+    <h1 class="result-label">{{ label }}</h1>
+
+    {% if risk_pct is not none %}
+    <div class="risk-meter">
+      <div class="meter-track">
+        <div
+          class="meter-fill {% if prediction == 1 %}fill-risk{% else %}fill-safe{% endif %}"
+          style="width: {{ risk_pct }}%"
+        ></div>
+      </div>
+      <p class="meter-label">Risk Probability: <strong>{{ risk_pct }}%</strong></p>
+    </div>
+    {% endif %}
+
+    <div class="result-quick-summary">
+      <span class="summary-pill {% if prediction == 1 %}summary-pill-risk{% else %}summary-pill-safe{% endif %}">
+        Priority: {{ support_level }}
+      </span>
+      <span class="summary-pill">Review {{ review_window }}</span>
+      <span class="summary-pill">
+        {% if prediction == 1 %}
+        Support plan should start now
+        {% else %}
+        Keep protective supports in place
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="result-interpretation">
+      {% if prediction == 1 %}
+      <p>
+        This student shows a pattern consistent with <strong>academic risk</strong>.
+        The result suggests that attendance, prior setbacks, study habits, or related support factors may be pushing performance off track.
+      </p>
+      {% else %}
+      <p>
+        This student currently appears <strong>lower risk</strong>, but the result should still be used as an early-monitoring signal.
+        Stable students usually stay stable when routines, attendance, and support systems remain consistent.
+      </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="recommendation-card">
+    <h2>Recommended Response Plan</h2>
+    <div class="rec-grid">
+      <section class="rec-panel">
+        <h3>Do Now</h3>
+        <ul class="rec-list">
+          {% if prediction == 1 %}
+          <li>
+            <span class="rec-icon">&#128221;</span>
+            <div>
+              <strong>Open a support case</strong>
+              <p>Flag the student for follow-up and document the current risk result so teachers and support staff are working from the same starting point.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#128218;</span>
+            <div>
+              <strong>Check subject-specific gaps</strong>
+              <p>Review prior failures, missed work, and weak assessment areas before assigning tutoring or extra practice.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#128197;</span>
+            <div>
+              <strong>Set a review date</strong>
+              <p>Schedule a concrete follow-up {{ review_window }} so this result turns into an action, not just a record.</p>
+            </div>
+          </li>
+          {% else %}
+          <li>
+            <span class="rec-icon">&#128202;</span>
+            <div>
+              <strong>Keep monitoring lightly</strong>
+              <p>Record the current result as a baseline and compare it with future attendance, grades, and behavior signals.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#127793;</span>
+            <div>
+              <strong>Protect what is working</strong>
+              <p>Maintain routines that appear to support the student, especially attendance, study time, and teacher feedback cycles.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#128467;</span>
+            <div>
+              <strong>Plan the next check-in</strong>
+              <p>Reassess {{ review_window }} or sooner if absences, missed assignments, or classroom engagement change noticeably.</p>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </section>
+
+      <section class="rec-panel">
+        <h3>Next 2 Weeks</h3>
+        <ul class="rec-list">
+          {% if prediction == 1 %}
+          <li>
+            <span class="rec-icon">&#128101;</span>
+            <div>
+              <strong>Coordinate with family or guardian</strong>
+              <p>Share concerns early, explain the main issues being monitored, and agree on one or two practical support actions at home.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#9201;</span>
+            <div>
+              <strong>Track attendance and missed work weekly</strong>
+              <p>Look for whether absences, late work, or incomplete tasks are improving after support begins.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#129504;</span>
+            <div>
+              <strong>Check non-academic barriers</strong>
+              <p>Consider motivation, emotional stress, travel burden, peer distraction, or family circumstances if grades alone do not explain the risk.</p>
+            </div>
+          </li>
+          {% else %}
+          <li>
+            <span class="rec-icon">&#127891;</span>
+            <div>
+              <strong>Stretch strengths into growth</strong>
+              <p>Offer enrichment, extension work, or positive recognition so the student keeps momentum instead of drifting into complacency.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#128172;</span>
+            <div>
+              <strong>Keep communication open</strong>
+              <p>Continue brief check-ins with the student and guardian so small issues are surfaced before they become performance problems.</p>
+            </div>
+          </li>
+          <li>
+            <span class="rec-icon">&#128200;</span>
+            <div>
+              <strong>Watch for drift, not just decline</strong>
+              <p>A stable student can still move toward risk if attendance softens, study time drops, or assignments begin slipping.</p>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </section>
+    </div>
+
+    <div class="recommendation-note">
+      <strong>How to use this result:</strong>
+      Treat the model output as a prioritization signal. It is most useful when combined with teacher observation, recent grades, attendance records, and direct discussion with the student.
+    </div>
+  </div>
+
+  <div class="recommendation-card">
+    <h2>What Staff Should Look For Next</h2>
+    <div class="watch-grid">
+      <div class="watch-card">
+        <h3>Attendance</h3>
+        <p>Check whether absences are isolated or becoming a repeated pattern across weeks or subjects.</p>
+      </div>
+      <div class="watch-card">
+        <h3>Academic Recovery</h3>
+        <p>Look for improvement in missed work, class participation, and subject-specific weak areas after support begins.</p>
+      </div>
+      <div class="watch-card">
+        <h3>Consistency</h3>
+        <p>One good week is not enough. Sustainable improvement matters more than a short-term bounce.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-actions">
+    <a href="{{ url_for('predict') }}" class="btn btn-primary">Run Another Assessment</a>
+    {% if history_enabled %}
+    <a href="{{ url_for('history') }}" class="btn btn-outline">View History</a>
+    {% endif %}
+    <a href="{{ url_for('insights') }}" class="btn btn-outline">View Insights</a>
+  </div>
+
+</div>
+{% endblock %}

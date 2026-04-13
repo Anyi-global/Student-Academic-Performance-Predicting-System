@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Prediction History - Student Academic Risk{% endblock %}
+
+{% block content %}
+{% set school_map = {"GP": "Gabriel Pereira", "MS": "Mousinho da Silveira"} %}
+{% set sex_map = {"F": "Female", "M": "Male"} %}
+{% set yesno_map = {"yes": "Yes", "no": "No"} %}
+
+<div class="container page-medium">
+  <div class="page-header">
+    <h1>Prediction History</h1>
+    <p>Review past assessments saved on this prototype. History is stored locally on this app instance, and this page shows the 100 most recent predictions.</p>
+  </div>
+
+  <section class="history-overview">
+    <article class="history-stat">
+      <span class="history-stat-label">Saved Predictions</span>
+      <strong>{{ stats.total_predictions }}</strong>
+      <p>Total assessment records currently stored in the local history log.</p>
+    </article>
+    <article class="history-stat">
+      <span class="history-stat-label">At Risk</span>
+      <strong>{{ stats.at_risk_count }}</strong>
+      <p>Predictions currently classified as at risk across the saved history.</p>
+    </article>
+    <article class="history-stat">
+      <span class="history-stat-label">Routine / Safe</span>
+      <strong>{{ stats.not_at_risk_count }}</strong>
+      <p>Predictions currently classified as not at risk or routine monitoring.</p>
+    </article>
+    <article class="history-stat">
+      <span class="history-stat-label">Urgent Support</span>
+      <strong>{{ stats.urgent_count }}</strong>
+      <p>Records with an estimated risk level of 70% or higher.</p>
+    </article>
+    <article class="history-stat">
+      <span class="history-stat-label">Average Risk</span>
+      <strong>{% if stats.average_risk_pct is not none %}{{ stats.average_risk_pct }}%{% else %}--{% endif %}</strong>
+      <p>Average modeled risk across the predictions currently in view.</p>
+    </article>
+  </section>
+
+  {% if entries %}
+  <section class="history-list">
+    {% for entry in entries %}
+    <article class="history-card {% if entry.prediction == 1 %}history-card-risk{% else %}history-card-safe{% endif %}">
+      <div class="history-card-head">
+        <div>
+          <h2>{{ entry.label }}</h2>
+          <p>Saved {{ entry.created_at_display }}</p>
+        </div>
+        <div class="history-score">
+          <strong>{{ entry.risk_pct_display }}</strong>
+          <span>{{ entry.support_level }}</span>
+        </div>
+      </div>
+
+      <div class="history-badges">
+        <span class="history-badge">School: {{ school_map.get(entry.school, entry.school or "Unknown") }}</span>
+        <span class="history-badge">Age: {{ entry.age if entry.age is not none else "Unknown" }}</span>
+        <span class="history-badge">Sex: {{ sex_map.get(entry.sex, entry.sex or "Unknown") }}</span>
+      </div>
+
+      <div class="history-signal-grid">
+        <div class="history-signal">
+          <span>Math failures</span>
+          <strong>{{ entry.failures_mat if entry.failures_mat is not none else "--" }}</strong>
+        </div>
+        <div class="history-signal">
+          <span>Portuguese failures</span>
+          <strong>{{ entry.failures_por if entry.failures_por is not none else "--" }}</strong>
+        </div>
+        <div class="history-signal">
+          <span>Math absences</span>
+          <strong>{{ entry.absences_mat if entry.absences_mat is not none else "--" }}</strong>
+        </div>
+        <div class="history-signal">
+          <span>Portuguese absences</span>
+          <strong>{{ entry.absences_por if entry.absences_por is not none else "--" }}</strong>
+        </div>
+        <div class="history-signal">
+          <span>Math study time</span>
+          <strong>{{ entry.studytime_mat if entry.studytime_mat is not none else "--" }}</strong>
+        </div>
+        <div class="history-signal">
+          <span>Portuguese study time</span>
+          <strong>{{ entry.studytime_por if entry.studytime_por is not none else "--" }}</strong>
+        </div>
+      </div>
+
+      <details class="history-details">
+        <summary>View submitted input snapshot</summary>
+        <div class="history-detail-sections">
+          <section class="history-detail-group">
+            <h3>Personal and family</h3>
+            <div class="history-field-grid">
+              <div class="history-field"><span>School</span><strong>{{ school_map.get(entry.form_data.school, entry.form_data.school or "Unknown") }}</strong></div>
+              <div class="history-field"><span>Sex</span><strong>{{ sex_map.get(entry.form_data.sex, entry.form_data.sex or "Unknown") }}</strong></div>
+              <div class="history-field"><span>Age</span><strong>{{ entry.form_data.age or "Unknown" }}</strong></div>
+              <div class="history-field"><span>Address</span><strong>{{ "Urban" if entry.form_data.address == "U" else "Rural" if entry.form_data.address == "R" else entry.form_data.address }}</strong></div>
+              <div class="history-field"><span>Family size</span><strong>{{ "Greater than 3" if entry.form_data.famsize == "GT3" else "3 or fewer" if entry.form_data.famsize == "LE3" else entry.form_data.famsize }}</strong></div>
+              <div class="history-field"><span>Parent status</span><strong>{{ "Together" if entry.form_data.Pstatus == "T" else "Apart" if entry.form_data.Pstatus == "A" else entry.form_data.Pstatus }}</strong></div>
+              <div class="history-field"><span>Mother education</span><strong>{{ entry.form_data.Medu }}</strong></div>
+              <div class="history-field"><span>Father education</span><strong>{{ entry.form_data.Fedu }}</strong></div>
+              <div class="history-field"><span>Mother job</span><strong>{{ entry.form_data.Mjob|replace("_", " ")|title }}</strong></div>
+              <div class="history-field"><span>Father job</span><strong>{{ entry.form_data.Fjob|replace("_", " ")|title }}</strong></div>
+              <div class="history-field"><span>Reason</span><strong>{{ entry.form_data.reason|replace("_", " ")|title }}</strong></div>
+              <div class="history-field"><span>Nursery</span><strong>{{ yesno_map.get(entry.form_data.nursery, entry.form_data.nursery) }}</strong></div>
+              <div class="history-field"><span>Internet at home</span><strong>{{ yesno_map.get(entry.form_data.internet, entry.form_data.internet) }}</strong></div>
+            </div>
+          </section>
+
+          <section class="history-detail-group">
+            <h3>Mathematics</h3>
+            <div class="history-field-grid">
+              <div class="history-field"><span>Guardian</span><strong>{{ entry.form_data.guardian_mat|title }}</strong></div>
+              <div class="history-field"><span>Travel time</span><strong>{{ entry.form_data.traveltime_mat }}</strong></div>
+              <div class="history-field"><span>Study time</span><strong>{{ entry.form_data.studytime_mat }}</strong></div>
+              <div class="history-field"><span>Failures</span><strong>{{ entry.form_data.failures_mat }}</strong></div>
+              <div class="history-field"><span>School support</span><strong>{{ yesno_map.get(entry.form_data.schoolsup_mat, entry.form_data.schoolsup_mat) }}</strong></div>
+              <div class="history-field"><span>Family support</span><strong>{{ yesno_map.get(entry.form_data.famsup_mat, entry.form_data.famsup_mat) }}</strong></div>
+              <div class="history-field"><span>Paid classes</span><strong>{{ yesno_map.get(entry.form_data.paid_mat, entry.form_data.paid_mat) }}</strong></div>
+              <div class="history-field"><span>Activities</span><strong>{{ yesno_map.get(entry.form_data.activities_mat, entry.form_data.activities_mat) }}</strong></div>
+              <div class="history-field"><span>Higher education</span><strong>{{ yesno_map.get(entry.form_data.higher_mat, entry.form_data.higher_mat) }}</strong></div>
+              <div class="history-field"><span>Romantic</span><strong>{{ yesno_map.get(entry.form_data.romantic_mat, entry.form_data.romantic_mat) }}</strong></div>
+              <div class="history-field"><span>Family relation</span><strong>{{ entry.form_data.famrel_mat }}</strong></div>
+              <div class="history-field"><span>Free time</span><strong>{{ entry.form_data.freetime_mat }}</strong></div>
+              <div class="history-field"><span>Go out</span><strong>{{ entry.form_data.goout_mat }}</strong></div>
+              <div class="history-field"><span>Workday alcohol</span><strong>{{ entry.form_data.Dalc_mat }}</strong></div>
+              <div class="history-field"><span>Weekend alcohol</span><strong>{{ entry.form_data.Walc_mat }}</strong></div>
+              <div class="history-field"><span>Health</span><strong>{{ entry.form_data.health_mat }}</strong></div>
+              <div class="history-field"><span>Absences</span><strong>{{ entry.form_data.absences_mat }}</strong></div>
+            </div>
+          </section>
+
+          <section class="history-detail-group">
+            <h3>Portuguese</h3>
+            <div class="history-field-grid">
+              <div class="history-field"><span>Guardian</span><strong>{{ entry.form_data.guardian_por|title }}</strong></div>
+              <div class="history-field"><span>Travel time</span><strong>{{ entry.form_data.traveltime_por }}</strong></div>
+              <div class="history-field"><span>Study time</span><strong>{{ entry.form_data.studytime_por }}</strong></div>
+              <div class="history-field"><span>Failures</span><strong>{{ entry.form_data.failures_por }}</strong></div>
+              <div class="history-field"><span>School support</span><strong>{{ yesno_map.get(entry.form_data.schoolsup_por, entry.form_data.schoolsup_por) }}</strong></div>
+              <div class="history-field"><span>Family support</span><strong>{{ yesno_map.get(entry.form_data.famsup_por, entry.form_data.famsup_por) }}</strong></div>
+              <div class="history-field"><span>Paid classes</span><strong>{{ yesno_map.get(entry.form_data.paid_por, entry.form_data.paid_por) }}</strong></div>
+              <div class="history-field"><span>Activities</span><strong>{{ yesno_map.get(entry.form_data.activities_por, entry.form_data.activities_por) }}</strong></div>
+              <div class="history-field"><span>Higher education</span><strong>{{ yesno_map.get(entry.form_data.higher_por, entry.form_data.higher_por) }}</strong></div>
+              <div class="history-field"><span>Romantic</span><strong>{{ yesno_map.get(entry.form_data.romantic_por, entry.form_data.romantic_por) }}</strong></div>
+              <div class="history-field"><span>Family relation</span><strong>{{ entry.form_data.famrel_por }}</strong></div>
+              <div class="history-field"><span>Free time</span><strong>{{ entry.form_data.freetime_por }}</strong></div>
+              <div class="history-field"><span>Go out</span><strong>{{ entry.form_data.goout_por }}</strong></div>
+              <div class="history-field"><span>Workday alcohol</span><strong>{{ entry.form_data.Dalc_por }}</strong></div>
+              <div class="history-field"><span>Weekend alcohol</span><strong>{{ entry.form_data.Walc_por }}</strong></div>
+              <div class="history-field"><span>Health</span><strong>{{ entry.form_data.health_por }}</strong></div>
+              <div class="history-field"><span>Absences</span><strong>{{ entry.form_data.absences_por }}</strong></div>
+            </div>
+          </section>
+        </div>
+      </details>
+    </article>
+    {% endfor %}
+  </section>
+  {% else %}
+  <section class="history-empty">
+    <h2>No saved predictions yet</h2>
+    <p>Run an assessment from the prediction form and it will appear here automatically.</p>
+    <a href="{{ url_for('predict') }}" class="btn btn-primary">Run First Assessment</a>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

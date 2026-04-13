@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Student Risk Prediction{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="icon" type="image/png" sizes="256x256" href="{{ url_for('static', filename='img/student-academic-risk-favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/student-academic-risk-favicon.png') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="{{ url_for('index') }}" class="nav-brand">
+        <img
+          src="{{ url_for('static', filename='img/student-academic-risk-logo-tight.png') }}"
+          alt="Student Academic Risk logo"
+          class="brand-logo"
+        />
+      </a>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('predict') }}" class="{% if request.endpoint == 'predict' %}active{% endif %}">Predict</a></li>
+        <li><a href="{{ url_for('history') }}" class="{% if request.endpoint == 'history' %}active{% endif %}">History</a></li>
+        <li><a href="{{ url_for('insights') }}" class="{% if request.endpoint == 'insights' %}active{% endif %}">Insights</a></li>
+        <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>AcademicRiskAI &mdash; Early Academic Intervention System &copy; 2025</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}About - Student Academic Risk System{% endblock %}
+
+{% block content %}
+<div class="container page-medium about-page">
+  <div class="page-header about-header">
+    <span class="section-kicker">About the system</span>
+    <h1>What Student Academic Risk Prediction System is designed to do</h1>
+    <p>
+      Student Academic Risk Prediction System is a school support tool that helps staff notice early signs of academic struggle,
+      review them in one place, and respond before the student falls further behind.
+    </p>
+  </div>
+
+  <section class="about-highlight-grid">
+    <article class="about-highlight-card">
+      <span class="about-highlight-label">Purpose</span>
+      <strong>Support early intervention</strong>
+      <p>It helps schools spot students who may need help sooner, while there is still time to respond effectively.</p>
+    </article>
+    <article class="about-highlight-card">
+      <span class="about-highlight-label">Users</span>
+      <strong>Teachers, counselors, administrators</strong>
+      <p>It is built for staff who already make decisions about tutoring, follow-up, and student support planning.</p>
+    </article>
+    <article class="about-highlight-card">
+      <span class="about-highlight-label">Role</span>
+      <strong>Decision support, not replacement</strong>
+      <p>It adds structure to conversations, but final judgment should still come from school staff.</p>
+    </article>
+  </section>
+
+  <section class="about-section-card">
+    <div class="about-section-head">
+      <span class="section-kicker">Who should use it</span>
+      <h2>Best fit for schools that want a clearer support workflow</h2>
+    </div>
+    <div class="about-split-grid">
+      <div class="about-panel">
+        <h3>Useful for</h3>
+        <ul class="about-list">
+          <li>Teachers reviewing a student whose attendance or work quality is slipping</li>
+          <li>Counselors preparing for intervention meetings or student check-ins</li>
+          <li>School leaders who want a more consistent way to discuss student support</li>
+        </ul>
+      </div>
+      <div class="about-panel">
+        <h3>Less useful for</h3>
+        <ul class="about-list">
+          <li>Making final decisions without staff review</li>
+          <li>Predicting long-term life outcomes or personal behavior</li>
+          <li>Replacing direct knowledge from teachers, families, or student records</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section-card">
+    <div class="about-section-head">
+      <span class="section-kicker">What goes into an assessment</span>
+      <h2>The tool looks across several parts of a student profile</h2>
+    </div>
+    <div class="about-domain-grid">
+      <article class="about-domain-card">
+        <h3>Personal and family context</h3>
+        <p>Basic student details, family structure, and home-related background information.</p>
+      </article>
+      <article class="about-domain-card">
+        <h3>Attendance and previous setbacks</h3>
+        <p>Absences and earlier failures, which are often strong warning signs when reviewed together.</p>
+      </article>
+      <article class="about-domain-card">
+        <h3>Study habits and school support</h3>
+        <p>Study time, family support, school support, and whether extra help may already be in place.</p>
+      </article>
+      <article class="about-domain-card">
+        <h3>Math and Portuguese course patterns</h3>
+        <p>The prototype uses details from both subjects to form a fuller picture of the student situation.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="about-section-card">
+    <div class="about-section-head">
+      <span class="section-kicker">How to read the result</span>
+      <h2>The score should guide response, not replace judgment</h2>
+    </div>
+
+    <div class="prediction-explain">
+      <div class="predict-item risk">
+        <strong>At Risk</strong>
+        <p>The student shows a pattern similar to others who needed support. This should trigger closer review and a practical follow-up plan.</p>
+      </div>
+      <div class="predict-item safe">
+        <strong>Not At Risk</strong>
+        <p>The student currently looks more stable, but staff should still keep protective routines in place and monitor for change.</p>
+      </div>
+    </div>
+
+    <div class="about-band-grid">
+      <div class="about-band-card">
+        <strong>0% to 39%</strong>
+        <p>Routine monitoring. Continue normal follow-up and recheck if attendance, study habits, or engagement change.</p>
+      </div>
+      <div class="about-band-card">
+        <strong>40% to 69%</strong>
+        <p>Targeted support. Review missed work, weak subjects, and attendance before the concern becomes more serious.</p>
+      </div>
+      <div class="about-band-card">
+        <strong>70% and above</strong>
+        <p>Urgent support. Move quickly with family contact, tutoring, and short-cycle review.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section-card">
+    <div class="about-section-head">
+      <span class="section-kicker">About the underlying model</span>
+      <h2>What powers the prototype</h2>
+    </div>
+    <div class="about-model-box">
+      <p>
+        The current prototype uses a decision-tree model trained on the
+        <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noopener">UCI Student Performance Dataset</a>.
+        The dataset combines records from Portuguese secondary school students in Mathematics and Portuguese.
+      </p>
+      <ul class="about-list">
+        <li>49 input features are used in the current prototype</li>
+        <li>The result is a two-class outcome: At Risk or Not At Risk</li>
+        <li>The percentage is meant to support prioritization and follow-up planning</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="about-section-card">
+    <div class="about-section-head">
+      <span class="section-kicker">Important safeguards</span>
+      <h2>What this system should never be used for</h2>
+    </div>
+    <div class="about-split-grid">
+      <div class="about-panel about-panel-warn">
+        <h3>Do not use it as</h3>
+        <ul class="about-list">
+          <li>A final judgment on a student's ability or future</li>
+          <li>A replacement for teacher feedback or direct student support</li>
+          <li>A standalone reason for punishment, exclusion, or labeling</li>
+        </ul>
+      </div>
+      <div class="about-panel">
+        <h3>Use it instead as</h3>
+        <ul class="about-list">
+          <li>An early warning signal that supports staff discussion</li>
+          <li>A structured way to prioritize cases and document follow-up</li>
+          <li>A starting point for conversation with the student, family, and support team</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Important:</strong> Student Academic Risk Prediction System is a decision-support aid only.
+      Each prediction should be reviewed alongside teacher judgment, recent student performance,
+      and the student's wider school and personal context.
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block title %}Home - Student Academic Risk Prediction{% endblock %}
+
+{% block content %}
+<section class="hero hero-home">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="hero-badge">Early academic support for schools</div>
+      <h1 class="hero-title">Spot students who may need help before the problem grows.</h1>
+      <p class="hero-subtitle">
+        Student Academic Risk Prediction System helps schools turn everyday student information into an early warning signal,
+        so teachers, counselors, and administrators can respond with the right level of support.
+      </p>
+      <div class="hero-actions">
+        <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">Run an Assessment</a>
+        <a href="{{ url_for('about') }}" class="btn btn-outline btn-lg">See How It Works</a>
+      </div>
+
+      <div class="hero-trust-row">
+        <div class="hero-trust-item">
+          <strong>Fast</strong>
+          <span>Complete an assessment in minutes.</span>
+        </div>
+        <div class="hero-trust-item">
+          <strong>Practical</strong>
+          <span>Receive a clear result and next-step guidance.</span>
+        </div>
+        <div class="hero-trust-item">
+          <strong>Support-focused</strong>
+          <span>Built to encourage early intervention, not punishment.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="hero-panel-card hero-panel-main">
+        <span class="hero-panel-label">Typical workflow</span>
+        <h2>From student record to support decision</h2>
+        <div class="hero-mini-steps">
+          <div class="hero-mini-step">
+            <span class="hero-mini-num">1</span>
+            <div>
+              <strong>Enter student details</strong>
+              <p>Attendance, past failures, study habits, and family-school context.</p>
+            </div>
+          </div>
+          <div class="hero-mini-step">
+            <span class="hero-mini-num">2</span>
+            <div>
+              <strong>Review the result</strong>
+              <p>See whether the student looks lower risk or may need closer support.</p>
+            </div>
+          </div>
+          <div class="hero-mini-step">
+            <span class="hero-mini-num">3</span>
+            <div>
+              <strong>Act and follow up</strong>
+              <p>Use the recommendations to guide outreach, tutoring, and monitoring.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-panel-grid">
+        <div class="hero-panel-card">
+          <span class="hero-panel-label">What you get</span>
+          <strong>Risk result</strong>
+          <p>A simple classification with an easy-to-read percentage.</p>
+        </div>
+        <div class="hero-panel-card">
+          <span class="hero-panel-label">What you keep</span>
+          <strong>Prediction history</strong>
+          <p>Review recent assessments and track how cases have been handled.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-kicker">Why schools use it</span>
+      <h2 class="section-title">Built for early action, not late reaction</h2>
+      <p class="section-intro">
+        The home page should answer one question fast: why would a school use this tool?
+        The answer is simple. It helps staff notice risk earlier and respond more consistently.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <span class="feature-tag">Clear signals</span>
+        <h3>Focus on patterns that matter</h3>
+        <p>Past failures, absences, and weak study routines often appear before a student falls seriously behind.</p>
+      </article>
+      <article class="feature-card">
+        <span class="feature-tag">Shared understanding</span>
+        <h3>Give staff one starting point</h3>
+        <p>Teachers, counselors, and school leaders can review the same result and coordinate the first response.</p>
+      </article>
+      <article class="feature-card">
+        <span class="feature-tag">Practical follow-up</span>
+        <h3>Turn a score into action</h3>
+        <p>The result page is designed to move from risk signal to next steps, not stop at prediction.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-kicker">How it works</span>
+      <h2 class="section-title">A simple three-step workflow</h2>
+      <p class="section-intro">
+        The process stays lightweight so staff can use it during routine student review, intervention planning,
+        or follow-up meetings.
+      </p>
+    </div>
+
+    <div class="workflow-grid">
+      <article class="workflow-card">
+        <div class="workflow-num">01</div>
+        <h3>Collect key student details</h3>
+        <p>Enter school, family, attendance, study, and course information from the current student record.</p>
+      </article>
+      <article class="workflow-card">
+        <div class="workflow-num">02</div>
+        <h3>Review the risk result</h3>
+        <p>See the result, the percentage, and the support level suggested by the current pattern.</p>
+      </article>
+      <article class="workflow-card">
+        <div class="workflow-num">03</div>
+        <h3>Decide on the next step</h3>
+        <p>Use the recommendations, then reassess later to see whether the student is stabilizing or drifting.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-kicker">Who it helps</span>
+      <h2 class="section-title">Designed for everyday school use</h2>
+      <p class="section-intro">
+        The tool fits best in settings where student support decisions already depend on attendance, class performance,
+        and staff coordination.
+      </p>
+    </div>
+
+    <div class="audience-grid">
+      <article class="audience-card">
+        <h3>Teachers</h3>
+        <p>Use it to flag students whose missed work, absences, or weak routines suggest they may need extra attention.</p>
+      </article>
+      <article class="audience-card">
+        <h3>Counselors</h3>
+        <p>Use it to prioritize check-ins, document concerns, and align support conversations with classroom evidence.</p>
+      </article>
+      <article class="audience-card">
+        <h3>Administrators</h3>
+        <p>Use it to structure intervention discussions and bring more consistency to how support decisions are made.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section cta-section">
+  <div class="container cta-shell">
+    <div>
+      <span class="section-kicker section-kicker-light">Start now</span>
+      <h2>Ready to review a student case?</h2>
+      <p>Run an assessment, check the history page, and use the insights page to guide a practical response.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">Open Prediction Form</a>
+      <a href="{{ url_for('history') }}" class="btn btn-outline btn-lg">View History</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
