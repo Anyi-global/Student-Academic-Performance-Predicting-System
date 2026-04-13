@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render URL
-        run: curl -s https://your-app-name.onrender.com
+        run: curl -s https://student-academic-performance-predicting.onrender.com/
